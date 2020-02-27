@@ -4,7 +4,7 @@ import { CSV } from "./CSV";
 const { fs } = require("fs");
 const { dialog } = require("electron").remote;
 
-var THREE = require("three")
+const THREE = require("three")
 
 let renderer: any;
 let scene: any;
@@ -23,6 +23,13 @@ let ry: any = [];
 let rz: any = [];
 let clk: number = 0;
 
+window.addEventListener("resize", () =>
+{
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}, false);
+
 function dtr(d: number)
 {
     return d * (Math.PI / 180.0);
@@ -37,20 +44,14 @@ function init()
     document.body.appendChild(renderer.domElement);
 
     data = new CSV();
-    dialog.showOpenDialog({properties: ["openFile"]}, (fn: string) => {
-        console.log(fn[0]);
-        data.open(fn[0]);
+    dialog.showOpenDialog({properties: ["openFile"]}).then((val) =>
+    {
+        data.open(val.filePaths[0]);
     });
 }
 
 function setup()
 {
-    let loader = new THREE.OBJLoader();
-    loader.load("./assets/vehicle.obj", (obj: any) =>
-    {
-        scene.add(obj);
-    });
-    
     var geo = new THREE.BoxGeometry(1, 1, 1);
     var mat = new THREE.MeshLambertMaterial({color: 0xff00ff});
     cube = new THREE.Mesh(geo, mat);
