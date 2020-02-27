@@ -1,10 +1,17 @@
+declare global
+{
+    interface Window { THREE: any; }
+}
+
 import { Model } from "./Model";
 import { CSV } from "./CSV";
 
 const { fs } = require("fs");
 const { dialog } = require("electron").remote;
 
-const THREE = require("three")
+var THREE = require("three");
+window.THREE = THREE;
+require("three/examples/js/loaders/GLTFLoader");
 
 let renderer: any;
 let scene: any;
@@ -15,6 +22,8 @@ let light: any;
 
 let test: Model;
 let data: CSV;
+
+let vehicle: any;
 
 let playing: boolean = false;
 let ms: any = [];
@@ -52,10 +61,13 @@ function init()
 
 function setup()
 {
-    var geo = new THREE.BoxGeometry(1, 1, 1);
-    var mat = new THREE.MeshLambertMaterial({color: 0xff00ff});
-    cube = new THREE.Mesh(geo, mat);
-    scene.add(cube);
+    vehicle = undefined;
+    let loader = new THREE.GLTFLoader();
+    loader.load("./assets/vehicle.glb", (gltf: any) =>
+    {
+        vehicle = gltf.scene;
+        scene.add(gltf.scene);
+    });
 
     light = new THREE.DirectionalLight(0xffffff, 0.5);
     light.position.x = 1;
@@ -86,11 +98,16 @@ function update()
     }
     else
     {
+        if (vehicle == undefined)
+        {
+            return;
+        }
+
         let pt: any = Math.floor(clk / 10);
 
-        cube.rotation.x = dtr(rx[pt]);
-        cube.rotation.y = dtr(ry[pt]);
-        cube.rotation.z = dtr(rz[pt]);
+        vehicle.rotation.x = dtr(rx[pt]);
+        vehicle.rotation.y = dtr(ry[pt]);
+        vehicle.rotation.z = dtr(rz[pt]);
 
         clk++;
     }
