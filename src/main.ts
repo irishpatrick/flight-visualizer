@@ -1,47 +1,55 @@
-import { Model } from "./Model";
+import { app, BrowserWindow } from "electron";
+import * as path from "path";
 
-var THREE = require("three")
+let mainWindow: Electron.BrowserWindow;
 
-let renderer: any;
-let scene: any;
-let camera: any;
+function createWindow() {
+  // Create the browser window.
+  mainWindow = new BrowserWindow({
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+      preload: path.join(__dirname, "preload.js"),
+    },
+    width: 800,
+  });
 
-let cube: any;
+  // and load the index.html of the app.
+  mainWindow.loadFile(path.join(__dirname, "../index.html"));
 
-let test: Model;
+  // Open the DevTools.
+  mainWindow.webContents.openDevTools();
 
-function init()
-{
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+  // Emitted when the window is closed.
+  mainWindow.on("closed", () => {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null;
+  });
 }
 
-function setup()
-{
-    var geo = new THREE.BoxGeometry(1, 1, 1);
-    var mat = new THREE.MeshBasicMaterial({color: 0xff00ff});
-    cube = new THREE.Mesh(geo, mat);
-    scene.add(cube);
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on("ready", createWindow);
 
-    camera.position.z = 4;
-    //camera.position.y = 4;
-}
+// Quit when all windows are closed.
+app.on("window-all-closed", () => {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
 
-function update()
-{
-    cube.rotation.y += 0.01;
-}
+app.on("activate", () => {
+  // On OS X it"s common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow();
+  }
+});
 
-function animate()
-{
-    requestAnimationFrame(animate);
-    update();
-    renderer.render(scene, camera);
-}
-
-init();
-setup();
-animate();
+// In this file you can include the rest of your app"s specific main process
+// code. You can also put them in separate files and require them here.

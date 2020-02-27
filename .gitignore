@@ -1,3 +1,9 @@
+# build stuff
+dist/
+
+# Vim
+*.swp
+
 # Logs
 logs
 *.log

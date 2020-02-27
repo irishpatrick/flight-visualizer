@@ -1,29 +1,28 @@
 {
-  "name": "flight-visualizer",
+  "name": "electron-quick-start-typescript",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "A minimal Electron application written with Typescript",
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "start": "npm run build && electron ./dist/main.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/irishpatrick/flight-visualizer.git"
-  },
-  "author": "Patrick Roche",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/irishpatrick/flight-visualizer/issues"
-  },
-  "homepage": "https://github.com/irishpatrick/flight-visualizer#readme",
+  "repository": "https://github.com/electron/electron-quick-start-typescript",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo",
+    "typescript"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^8.0.1",
+    "electron": "^6.0.8",
     "three": "^0.113.2",
-    "tsify": "^4.0.1",
-    "typescript": "^3.8.2"
-  },
-  "dependencies": {
-    "@types/node": "^13.7.4"
+    "tslint": "^5.19.0",
+    "typescript": "^3.6.0"
   }
 }
