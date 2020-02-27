@@ -69,6 +69,16 @@ function setup()
         scene.add(gltf.scene);
     });
 
+    loader.load("./assets/skybox.glb", (gltf: any) =>
+    {
+        gltf.scene.scale.x = 100;
+        gltf.scene.scale.y = 100;
+        gltf.scene.scale.z = 100;
+        gltf.scene.rotation.x = 90;
+
+        scene.add(gltf.scene);
+    });
+
     light = new THREE.DirectionalLight(0xffffff, 1.0);
     light.position.x = 1;
     light.position.z = 1;
@@ -105,8 +115,8 @@ function update()
 
         let pt: any = Math.floor(clk / 10);
 
-        vehicle.rotation.x = dtr(rx[pt]);
-        vehicle.rotation.y = dtr(ry[pt]);
+        vehicle.rotation.x = dtr(ry[pt]);
+        vehicle.rotation.y = dtr(rx[pt]);
         vehicle.rotation.z = dtr(rz[pt]);
 
         clk++;
