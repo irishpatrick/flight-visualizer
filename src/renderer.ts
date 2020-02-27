@@ -69,16 +69,16 @@ function setup()
         scene.add(gltf.scene);
     });
 
-    light = new THREE.DirectionalLight(0xffffff, 0.5);
+    light = new THREE.DirectionalLight(0xffffff, 1.0);
     light.position.x = 1;
     light.position.z = 1;
     light.position.y = 1;
     scene.add(light);
 
-    var amb = new THREE.AmbientLight(0xffffff, 0.2);
+    var amb = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(amb);
 
-    camera.position.z = 4;
+    camera.position.z = 8;
     //camera.position.y = 4;
 }
 
