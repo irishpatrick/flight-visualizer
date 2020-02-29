@@ -49,6 +49,8 @@ function init()
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     renderer = new THREE.WebGLRenderer();
+    renderer.gammaOutput = true;
+    renderer.gammaFactor = 2.2;
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
@@ -85,7 +87,7 @@ function setup()
     light.position.y = 1;
     scene.add(light);
 
-    var amb = new THREE.AmbientLight(0xffffff, 0.5);
+    var amb = new THREE.AmbientLight(0xffffff, 0.2);
     scene.add(amb);
 
     camera.position.z = 8;
@@ -113,11 +115,11 @@ function update()
             return;
         }
 
-        let pt: any = Math.floor(clk / 10);
+        let pt: any = clk * 4;
 
-        vehicle.rotation.x = dtr(ry[pt]);
-        vehicle.rotation.y = dtr(rx[pt]);
-        vehicle.rotation.z = dtr(rz[pt]);
+        vehicle.rotation.x = Math.abs(dtr(ry[pt]));
+        vehicle.rotation.y = Math.abs(dtr(rx[pt]));
+        vehicle.rotation.z = Math.abs(dtr(rz[pt]));
 
         clk++;
     }
