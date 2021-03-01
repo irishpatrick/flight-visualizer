@@ -21,7 +21,7 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^8.0.2",
-    "three": "^0.113.2",
+    "three": "^0.125.0",
     "tslint": "^5.19.0",
     "typescript": "^3.6.0"
   }
